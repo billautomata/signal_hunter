@@ -32,7 +32,7 @@ sock_fft.on('message', function(msg){
     buffers.forEach(function(msg){
       var stats = buffer_utils.find_peak(msg)
       // console.log(stats)
-      buffer_utils.draw_buffer(msg, stats.average)
+      buffer_utils.draw_buffer(msg, stats.median)
     })
 
     // // console.log('max', max)
