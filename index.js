@@ -11,15 +11,15 @@ var xmlrpc_client = xmlrpc.createClient({
 var constants = require('./lib/constants.js')
 var FFT_BUFFER_LENGTH = constants.FFT_SIZE * constants.FLOAT32_SIZE
 
-var sock = zmq.socket('pull')
+var sock_fft = zmq.socket('pull')
 var sock_iqs = zmq.socket('pull')
 
-sock.connect('tcp://127.0.0.1:9000');
+sock_fft.connect('tcp://127.0.0.1:9000');
 sock_iqs.connect('tcp://127.0.0.1:9001')
 
 var count = 0
 
-sock.on('message', function(msg){
+sock_fft.on('message', function(msg){
   count += 1
   if(count % 10 === 0){
     var buffers = []
