@@ -2,12 +2,6 @@ var zmq = require('zmq')
 var xmlrpc = require('xmlrpc')
 var buffer_utils = require('./lib/BufferUtils.js')
 
-var xmlrpc_client = xmlrpc.createClient({
-  host: 'localhost',
-  port: 8080,
-  path: '/'
-})
-
 var constants = require('./lib/constants.js')
 var FFT_BUFFER_LENGTH = constants.FFT_SIZE * constants.FLOAT32_SIZE
 
@@ -34,15 +28,6 @@ sock_fft.on('message', function(msg){
       // console.log(stats)
       buffer_utils.draw_buffer(msg, stats.median)
     })
-
-    // // console.log('max', max)
-    // var freq = 91500000 + (count*100)
-    // xmlrpc_client.methodCall('set_frequency', [ freq ], function(err, value){
-    //   // console.log('set frequency ', value)
-    //   if(err){
-    //     console.log('error',err)
-    //   }
-    // })
   }
 });
 
