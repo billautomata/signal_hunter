@@ -2375,7 +2375,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(960, 340)</value>
+      <value>(1168, 460)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2470,7 +2470,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>fft_rate</key>
@@ -2478,7 +2478,7 @@
     </param>
     <param>
       <key>fft_size</key>
-      <value>512</value>
+      <value>1024</value>
     </param>
     <param>
       <key>freqvar</key>
@@ -2486,7 +2486,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1280, 236)</value>
+      <value>(904, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2776,12 +2776,6 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_vector_to_stream_0</source_block_id>
-    <sink_block_id>wxgui_waterfallsink2_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>fft_vxx_0</source_block_id>
     <sink_block_id>blocks_vector_to_stream_0</sink_block_id>
     <source_key>0</source_key>
@@ -2808,6 +2802,12 @@
   <connection>
     <source_block_id>rational_resampler_xxx_0</source_block_id>
     <sink_block_id>low_pass_filter_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>rational_resampler_xxx_0</source_block_id>
+    <sink_block_id>wxgui_waterfallsink2_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
