@@ -1,3 +1,5 @@
+var rpc = require('./lib/RPCUtils.js')
+
 var express = require('express')
 var http = require('http')
 var socket_io = require('socket.io')
@@ -10,6 +12,11 @@ var server = http.createServer(app).listen(8000, function(){
   io = socket_io(server)
   io.on('connection', function(socket){
     console.log('a user connected');
+
+    rpc.get('frequency', function(v){
+      socket.emit('frequency', v)
+    })
+
     sockets.push(socket)
     console.log(sockets.length, 'users total')
     socket.on('disconnect', function(){
@@ -21,9 +28,8 @@ var server = http.createServer(app).listen(8000, function(){
 
 app.use(express.static(__dirname + '/public'))
 
-
 var zmq = require('zmq')
-var xmlrpc = require('xmlrpc')
+
 var buffer_utils = require('./lib/BufferUtils.js')
 
 var constants = require('./lib/constants.js')
@@ -39,7 +45,7 @@ var count = 0
 
 sock_fft.on('message', function(msg){
   count += 1
-  if(count % 10 === 0){
+  if(count % 100 === 0){
     // split the buffers
     var buffers = []
     var buffer_index = 0

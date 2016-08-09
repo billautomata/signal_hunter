@@ -20,3 +20,8 @@ window.socket.on('fft_data', function (d) {
   console.log(d.length)
   window.latest_buffer = d
 })
+
+window.socket.on('frequency', function (d) {
+  console.log('got frequency!')
+  console.log(d)
+})

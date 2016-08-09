@@ -11,7 +11,7 @@ The node application also collects the IQ stream from ZMQ and buffers multiple s
   * [x] max, min, average, median
   * [ ] baseline level detection
   * [ ]
-* [ ] draw buffer waterfall in the console
+* [x] draw buffer waterfall in the console
 * [ ] record iq stream
 * [ ] set / get frequency
 * [ ] record fft
@@ -20,3 +20,8 @@ The node application also collects the IQ stream from ZMQ and buffers multiple s
     * [ ] frequency
     * [ ] time
 * [ ] browser interoperability
+  * [x] get frequency
+  * [ ] set frequency
+  * [ ] buffer stats
+  * [ ] max, min, average, median
+  * [ ] baseline level detection
