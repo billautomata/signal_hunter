@@ -33,7 +33,7 @@ var constants = require('./lib/constants.js')
 var FFT_BUFFER_LENGTH = constants.FFT_SIZE * constants.FLOAT32_SIZE
 
 var hunter = require('./lib/SignalHunter.js')({
-  frequency: 930000000
+  frequency: 152000000
 })
 
 var sock_fft = zmq.socket('pull')
