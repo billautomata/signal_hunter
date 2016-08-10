@@ -73,8 +73,8 @@ sock_fft.on('message', function(msg){
 });
 
 var iq_msgs = []
-var done = false
-var written = false
+var done = true
+var written = true
 sock_iqs.on('message', function(message){
   if(written){
     return
