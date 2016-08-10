@@ -1,9 +1,10 @@
-
-
+var Buffer = require('buffer').Buffer
 var express = require('express')
 var http = require('http')
 var socket_io = require('socket.io')
 var zmq = require('zmq')
+
+var fs = require('fs')
 
 var io
 var sockets = []
@@ -33,7 +34,8 @@ var constants = require('./lib/constants.js')
 var FFT_BUFFER_LENGTH = constants.FFT_SIZE * constants.FLOAT32_SIZE
 
 var hunter = require('./lib/SignalHunter.js')({
-  frequency: 152000000
+  // frequency: 152000000
+  frequency: 930000000
 })
 
 var sock_fft = zmq.socket('pull')
@@ -70,6 +72,21 @@ sock_fft.on('message', function(msg){
   }
 });
 
+var iq_msgs = []
+var done = false
+var written = false
 sock_iqs.on('message', function(message){
-  // console.log('iq msg', message.length)
+  if(written){
+    return
+  }
+  if(done){
+    written = true
+    fs.writeFileSync('./out.iq', Buffer.concat(iq_msgs))
+  } else {
+    iq_msgs.push(message)
+    if(iq_msgs.length > 5){
+      done = true
+    }
+  }
+  console.log('iq msg', message.length)
 })
