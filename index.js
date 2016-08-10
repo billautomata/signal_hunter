@@ -3,6 +3,7 @@ var rpc = require('./lib/RPCUtils.js')
 var express = require('express')
 var http = require('http')
 var socket_io = require('socket.io')
+var zmq = require('zmq')
 
 var io
 var sockets = []
@@ -23,17 +24,15 @@ var server = http.createServer(app).listen(8000, function(){
       sockets = sockets.filter(function(s){ return s !== socket })
     })
   })
-
 })
 
 app.use(express.static(__dirname + '/public'))
 
-var zmq = require('zmq')
-
 var buffer_utils = require('./lib/BufferUtils.js')
-
 var constants = require('./lib/constants.js')
 var FFT_BUFFER_LENGTH = constants.FFT_SIZE * constants.FLOAT32_SIZE
+
+var hunter = require('./lib/SignalHunter.js')()
 
 var sock_fft = zmq.socket('pull')
 var sock_iqs = zmq.socket('pull')
@@ -45,7 +44,7 @@ var count = 0
 
 sock_fft.on('message', function(msg){
   count += 1
-  if(count % 100 === 0){
+  if(count % 1 === 0){
     // split the buffers
     var buffers = []
     var buffer_index = 0
@@ -58,9 +57,11 @@ sock_fft.on('message', function(msg){
       sockets.forEach(function(socket){
         socket.emit('fft_data', buffer_utils.float_array(msg))
       })
-      var stats = buffer_utils.find_peak(msg)
-      buffer_utils.draw_buffer(msg, stats.max*0.1)
-      // buffer_utils.histogram(msg)
+      // var stats = buffer_utils.analyze(msg)
+      // buffer_utils.draw_buffer(msg, 0.25)
+      // buffer_utils.find_histogram(msg)
+      var peaks = buffer_utils.find_peaks(msg)
+      hunter.tick(peaks)
     })
 
   }

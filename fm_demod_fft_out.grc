@@ -120,7 +120,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>91500000</value>
+      <value>930000000</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -161,6 +161,65 @@
     <param>
       <key>num_steps</key>
       <value>1000</value>
+    </param>
+    <param>
+      <key>style</key>
+      <value>wx.SL_HORIZONTAL</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_slider</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>converver</key>
+      <value>int_converter</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>10</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(32, 444)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>grid_pos</key>
+      <value></value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>gain</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>gain</value>
+    </param>
+    <param>
+      <key>max</key>
+      <value>50</value>
+    </param>
+    <param>
+      <key>min</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>notebook</key>
+      <value></value>
+    </param>
+    <param>
+      <key>num_steps</key>
+      <value>50</value>
     </param>
     <param>
       <key>style</key>
@@ -394,7 +453,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1280, 160)</value>
+      <value>(1272, 120)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -488,7 +547,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(696, 12)</value>
+      <value>(664, 108)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -539,7 +598,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1456, 156)</value>
+      <value>(1288, 188)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -641,7 +700,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1072, 196)</value>
+      <value>(1096, 116)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -700,7 +759,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(840, 92)</value>
+      <value>(840, 84)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -968,11 +1027,11 @@
     </param>
     <param>
       <key>iq_balance_mode0</key>
-      <value>0</value>
+      <value>2</value>
     </param>
     <param>
       <key>gain0</key>
-      <value>10</value>
+      <value>gain</value>
     </param>
     <param>
       <key>ant10</key>
@@ -2232,7 +2291,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(144, 132)</value>
+      <value>(176, 132)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2347,6 +2406,109 @@
     </param>
     <param>
       <key>baseband_freq</key>
+      <value>frequency</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>fft_size</key>
+      <value>1024</value>
+    </param>
+    <param>
+      <key>freqvar</key>
+      <value>None</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1080, 268)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>grid_pos</key>
+      <value></value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>wxgui_fftsink2_0</value>
+    </param>
+    <param>
+      <key>notebook</key>
+      <value></value>
+    </param>
+    <param>
+      <key>peak_hold</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>ref_level</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ref_scale</key>
+      <value>2.0</value>
+    </param>
+    <param>
+      <key>fft_rate</key>
+      <value>15</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>title</key>
+      <value>FFT Plot</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>win_size</key>
+      <value></value>
+    </param>
+    <param>
+      <key>win</key>
+      <value>None</value>
+    </param>
+    <param>
+      <key>y_divs</key>
+      <value>10</value>
+    </param>
+    <param>
+      <key>y_per_div</key>
+      <value>10</value>
+    </param>
+  </block>
+  <block>
+    <key>wxgui_fftsink2</key>
+    <param>
+      <key>avg_alpha</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>average</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>baseband_freq</key>
       <value>1</value>
     </param>
     <param>
@@ -2375,7 +2537,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1168, 460)</value>
+      <value>(1152, 476)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2470,7 +2632,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>fft_rate</key>
@@ -2486,7 +2648,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(904, 260)</value>
+      <value>(880, 228)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2588,66 +2750,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1080, 36)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>hwm</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>zeromq_push_sink_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>pass_tags</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>timeout</key>
-      <value>100</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1024</value>
-    </param>
-  </block>
-  <block>
-    <key>zeromq_push_sink</key>
-    <param>
-      <key>address</key>
-      <value>tcp://127.0.0.1:9000</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1616, 132)</value>
+      <value>(1464, 116)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2782,20 +2889,8 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>fft_vxx_0</source_block_id>
-    <sink_block_id>zeromq_push_sink_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>low_pass_filter_0</source_block_id>
     <sink_block_id>analog_wfm_rcv_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>rational_resampler_xxx_0</source_block_id>
-    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2825,6 +2920,12 @@
   </connection>
   <connection>
     <source_block_id>rtlsdr_source_0</source_block_id>
+    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>rtlsdr_source_0</source_block_id>
     <sink_block_id>blocks_stream_to_vector_2</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -2832,6 +2933,12 @@
   <connection>
     <source_block_id>rtlsdr_source_0</source_block_id>
     <sink_block_id>rational_resampler_xxx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>rtlsdr_source_0</source_block_id>
+    <sink_block_id>wxgui_fftsink2_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
