@@ -1,4 +1,4 @@
-var rpc = require('./lib/RPCUtils.js')
+
 
 var express = require('express')
 var http = require('http')
@@ -32,7 +32,9 @@ var buffer_utils = require('./lib/BufferUtils.js')
 var constants = require('./lib/constants.js')
 var FFT_BUFFER_LENGTH = constants.FFT_SIZE * constants.FLOAT32_SIZE
 
-var hunter = require('./lib/SignalHunter.js')()
+var hunter = require('./lib/SignalHunter.js')({
+  frequency: 930000000
+})
 
 var sock_fft = zmq.socket('pull')
 var sock_iqs = zmq.socket('pull')
@@ -44,7 +46,7 @@ var count = 0
 
 sock_fft.on('message', function(msg){
   count += 1
-  if(count % 1 === 0){
+  if(count % 50 === 0){
     // split the buffers
     var buffers = []
     var buffer_index = 0
@@ -62,6 +64,7 @@ sock_fft.on('message', function(msg){
       // buffer_utils.find_histogram(msg)
       var peaks = buffer_utils.find_peaks(msg)
       hunter.tick(peaks)
+
     })
 
   }

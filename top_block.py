@@ -5,7 +5,7 @@
 # Title: FM Demod
 # Author: @billautomata
 # Description: yes
-# Generated: Wed Aug 10 09:51:31 2016
+# Generated: Wed Aug 10 11:00:10 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -135,22 +135,6 @@ class top_block(grc_wxgui.top_block_gui):
         self.xmlrpc_server_0_thread = threading.Thread(target=self.xmlrpc_server_0.serve_forever)
         self.xmlrpc_server_0_thread.daemon = True
         self.xmlrpc_server_0_thread.start()
-        self.wxgui_fftsink2_1 = fftsink2.fft_sink_f(
-        	self.GetWin(),
-        	baseband_freq=1,
-        	y_per_div=10,
-        	y_divs=10,
-        	ref_level=0,
-        	ref_scale=2.0,
-        	sample_rate=48000,
-        	fft_size=1024,
-        	fft_rate=15,
-        	average=False,
-        	avg_alpha=None,
-        	title='FFT Plot',
-        	peak_hold=False,
-        )
-        self.Add(self.wxgui_fftsink2_1.win)
         self.wxgui_fftsink2_0 = fftsink2.fft_sink_c(
         	self.GetWin(),
         	baseband_freq=frequency,
@@ -221,7 +205,6 @@ class top_block(grc_wxgui.top_block_gui):
         self.connect((self.low_pass_filter_0, 0), (self.analog_wfm_rcv_0, 0))    
         self.connect((self.rational_resampler_xxx_0, 0), (self.low_pass_filter_0, 0))    
         self.connect((self.rational_resampler_xxx_1, 0), (self.blocks_multiply_const_vxx_0, 0))    
-        self.connect((self.rational_resampler_xxx_1, 0), (self.wxgui_fftsink2_1, 0))    
         self.connect((self.rtlsdr_source_0, 0), (self.blocks_stream_to_vector_0, 0))    
         self.connect((self.rtlsdr_source_0, 0), (self.blocks_stream_to_vector_2, 0))    
         self.connect((self.rtlsdr_source_0, 0), (self.rational_resampler_xxx_0, 0))    
@@ -266,6 +249,8 @@ class top_block(grc_wxgui.top_block_gui):
 
 
 def main(top_block_cls=top_block, options=None):
+    if gr.enable_realtime_scheduling() != gr.RT_OK:
+        print "Error: failed to enable real-time scheduling."
 
     tb = top_block_cls()
     tb.Start(True)
