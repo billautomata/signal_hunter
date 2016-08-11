@@ -72,21 +72,6 @@ sock_fft.on('message', function(msg){
   }
 });
 
-var iq_msgs = []
-var done = true
-var written = true
 sock_iqs.on('message', function(message){
-  if(written){
-    return
-  }
-  if(done){
-    written = true
-    fs.writeFileSync('./out.iq', Buffer.concat(iq_msgs))
-  } else {
-    iq_msgs.push(message)
-    if(iq_msgs.length > 5){
-      done = true
-    }
-  }
-  console.log('iq msg', message.length)
+  hunter.iq_packet(message)
 })
