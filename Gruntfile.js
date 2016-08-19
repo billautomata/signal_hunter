@@ -16,7 +16,8 @@ module.exports = function (grunt) {
           'public/build/bundle.js': ['./public/src/*.js'],
         },
         options: {
-          transform: ['brfs']
+          transform: ['brfs'],
+          debug: true
         }
       }
     },

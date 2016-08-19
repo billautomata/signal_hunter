@@ -39,6 +39,6 @@ The node application also collects the IQ stream from ZMQ and buffers multiple s
   * [ ] set step frequency size
   * [ ] set step time interval
   * [ ] max, min, average, median, baseline
-  * [ ] visualize FFT
+  * [x] visualize FFT
   * [ ] identify peaks
-  * [ ] recording state 
+  * [ ] recording state

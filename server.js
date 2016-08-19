@@ -15,10 +15,6 @@ var server = http.createServer(app).listen(8000, function(){
   io.on('connection', function(socket){
     console.log('a user connected');
 
-    rpc.get('frequency', function(v){
-      socket.emit('frequency', v)
-    })
-
     sockets.push(socket)
     console.log(sockets.length, 'users total')
     socket.on('disconnect', function(){
@@ -66,7 +62,6 @@ sock_fft.on('message', function(msg){
       // buffer_utils.find_histogram(msg)
       var peaks = buffer_utils.find_peaks(msg)
       hunter.tick(peaks)
-
     })
 
   }
