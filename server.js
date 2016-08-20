@@ -11,13 +11,13 @@ var socket_io = require('socket.io')
 var zmq = require('zmq')
 
 var radio_data = {
-  frequency: 930000000,
+  frequency: 932000000,
   peaks: [],
   samp_rate: 2000000
 }
 
 var hunter = require('./lib/SignalHunter.js')({
-  frequency: 930000000
+  frequency: radio_data.frequency
 })
 
 var sock_fft = zmq.socket('pull')
@@ -58,7 +58,7 @@ var count = 0
 
 sock_fft.on('message', function(msg){
   count += 1
-  if(count % 1000 === 0){
+  if(count % 100 === 0){
     // split the buffers
     var buffers = []
     var buffer_index = 0
