@@ -19,8 +19,8 @@ The node application also collects the IQ stream from ZMQ and buffers multiple s
 * [ ] IQ stream recorder
   * [x] test write iq stream
   * [ ] buffer iq stream
-  * [ ] move to signal hunter codebase
-  * [ ] have zmq event populate signal hunter object
+  * [x] move to signal hunter codebase
+  * [x] have zmq event populate signal hunter object
   * [ ] compression
 
 * [ ] Signal Event Recorder

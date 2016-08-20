@@ -5,7 +5,7 @@
 # Title: Signal Hunter Faked
 # Author: @billautomata
 # Description: yes
-# Generated: Fri Aug 19 17:04:56 2016
+# Generated: Sat Aug 20 06:00:01 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -49,6 +49,7 @@ class signal_hunter_faked(grc_wxgui.top_block_gui):
         ##################################################
         self.samp_rate = samp_rate = 2000000
         self.volume = volume = 1
+        self.offset2 = offset2 = 0
         self.offset = offset = samp_rate/4
         self.gain = gain = 10
         self.frequency = frequency = 930000000
@@ -56,6 +57,29 @@ class signal_hunter_faked(grc_wxgui.top_block_gui):
         ##################################################
         # Blocks
         ##################################################
+        _offset2_sizer = wx.BoxSizer(wx.VERTICAL)
+        self._offset2_text_box = forms.text_box(
+        	parent=self.GetWin(),
+        	sizer=_offset2_sizer,
+        	value=self.offset2,
+        	callback=self.set_offset2,
+        	label='offset2',
+        	converter=forms.int_converter(),
+        	proportion=0,
+        )
+        self._offset2_slider = forms.slider(
+        	parent=self.GetWin(),
+        	sizer=_offset2_sizer,
+        	value=self.offset2,
+        	callback=self.set_offset2,
+        	minimum=-samp_rate/2,
+        	maximum=samp_rate/2,
+        	num_steps=1000,
+        	style=wx.SL_HORIZONTAL,
+        	cast=int,
+        	proportion=1,
+        )
+        self.Add(_offset2_sizer)
         _offset_sizer = wx.BoxSizer(wx.VERTICAL)
         self._offset_text_box = forms.text_box(
         	parent=self.GetWin(),
@@ -71,8 +95,8 @@ class signal_hunter_faked(grc_wxgui.top_block_gui):
         	sizer=_offset_sizer,
         	value=self.offset,
         	callback=self.set_offset,
-        	minimum=-samp_rate,
-        	maximum=samp_rate,
+        	minimum=-samp_rate/2,
+        	maximum=samp_rate/2,
         	num_steps=1000,
         	style=wx.SL_HORIZONTAL,
         	cast=int,
@@ -179,8 +203,8 @@ class signal_hunter_faked(grc_wxgui.top_block_gui):
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, 1024)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
-        self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, frequency+offset, 0.1, 0)
-        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, frequency, 0.1, 0)
+        self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_SIN_WAVE, frequency+offset, 0.1, 0)
+        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, frequency+offset2, 0.1, 0)
 
         ##################################################
         # Connections
@@ -217,6 +241,15 @@ class signal_hunter_faked(grc_wxgui.top_block_gui):
         self._volume_slider.set_value(self.volume)
         self._volume_text_box.set_value(self.volume)
 
+    def get_offset2(self):
+        return self.offset2
+
+    def set_offset2(self, offset2):
+        self.offset2 = offset2
+        self._offset2_slider.set_value(self.offset2)
+        self._offset2_text_box.set_value(self.offset2)
+        self.analog_sig_source_x_0.set_frequency(self.frequency+self.offset2)
+
     def get_offset(self):
         return self.offset
 
@@ -243,7 +276,7 @@ class signal_hunter_faked(grc_wxgui.top_block_gui):
         self._frequency_text_box.set_value(self.frequency)
         self.wxgui_fftsink2_0.set_baseband_freq(self.frequency)
         self.analog_sig_source_x_0_0.set_frequency(self.frequency+self.offset)
-        self.analog_sig_source_x_0.set_frequency(self.frequency)
+        self.analog_sig_source_x_0.set_frequency(self.frequency+self.offset2)
 
 
 def main(top_block_cls=signal_hunter_faked, options=None):

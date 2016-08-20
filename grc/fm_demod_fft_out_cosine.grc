@@ -266,11 +266,70 @@
     </param>
     <param>
       <key>max</key>
-      <value>samp_rate</value>
+      <value>samp_rate/2</value>
     </param>
     <param>
       <key>min</key>
-      <value>-samp_rate</value>
+      <value>-samp_rate/2</value>
+    </param>
+    <param>
+      <key>notebook</key>
+      <value></value>
+    </param>
+    <param>
+      <key>num_steps</key>
+      <value>1000</value>
+    </param>
+    <param>
+      <key>style</key>
+      <value>wx.SL_HORIZONTAL</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_slider</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>converver</key>
+      <value>int_converter</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(32, 724)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>grid_pos</key>
+      <value></value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>offset2</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>offset2</value>
+    </param>
+    <param>
+      <key>max</key>
+      <value>samp_rate/2</value>
+    </param>
+    <param>
+      <key>min</key>
+      <value>-samp_rate/2</value>
     </param>
     <param>
       <key>notebook</key>
@@ -422,7 +481,7 @@
     </param>
     <param>
       <key>freq</key>
-      <value>frequency</value>
+      <value>frequency+offset2</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -521,7 +580,7 @@
     </param>
     <param>
       <key>waveform</key>
-      <value>analog.GR_COS_WAVE</value>
+      <value>analog.GR_SIN_WAVE</value>
     </param>
   </block>
   <block>
@@ -980,7 +1039,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(488, 180)</value>
+      <value>(616, 116)</value>
     </param>
     <param>
       <key>_rotation</key>

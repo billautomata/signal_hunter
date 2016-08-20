@@ -60,7 +60,10 @@ module.exports = function fft_meter () {
       pts[i].y = scale_y_power(d)
     })
     lines.forEach(function (line, i) {
-      line.attr('y1', pts[i].y).attr('y2', pts[i + 1].y)
+      line.attr('y1', pts[i].y).attr('y2', pts[i + 1].y).attr('stroke', 'black')
+    })
+    window.current_peak_data.indexes.forEach(function (idx) {
+      lines[idx].attr('stroke', 'red')
     })
   }
 
