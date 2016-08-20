@@ -5,7 +5,7 @@
 # Title: Signal Hunter Faked
 # Author: @billautomata
 # Description: yes
-# Generated: Fri Aug 19 12:37:37 2016
+# Generated: Fri Aug 19 17:04:56 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -49,7 +49,7 @@ class signal_hunter_faked(grc_wxgui.top_block_gui):
         ##################################################
         self.samp_rate = samp_rate = 2000000
         self.volume = volume = 1
-        self.offset = offset = samp_rate/2
+        self.offset = offset = samp_rate/4
         self.gain = gain = 10
         self.frequency = frequency = 930000000
 
@@ -203,7 +203,7 @@ class signal_hunter_faked(grc_wxgui.top_block_gui):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.set_offset(self.samp_rate/2)
+        self.set_offset(self.samp_rate/4)
         self.wxgui_fftsink2_0.set_sample_rate(self.samp_rate)
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.analog_sig_source_x_0_0.set_sampling_freq(self.samp_rate)

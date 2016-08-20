@@ -13,7 +13,9 @@ module.exports = function fft_meter () {
     .attr('preserveAspectRatio', 'xMidYMid')
     .style('outline', '1px solid rgb(100,100,100)')
 
-  var scale_y_power = d3.scale.linear().domain([-3, 3]).range([h * 0.95, h * 0.05])
+  var auto_scale_input = [-3, 3]
+
+  var scale_y_power = d3.scale.linear().domain(auto_scale_input).range([h * 0.95, h * 0.05])
   var scale_x_frequency = d3.scale.linear().domain([0, 1024]).range([0, w])
 
   var pts = []
@@ -43,8 +45,19 @@ module.exports = function fft_meter () {
   create_pts()
 
   function update (data) {
-    pts.forEach(function (pt, i) {
-      pt.y = scale_y_power(data[i])
+    data.forEach(function (d, i) {
+      if (d < auto_scale_input[0]) {
+        auto_scale_input[0] = d
+        scale_y_power = d3.scale.linear().domain(auto_scale_input).range([h * 0.95, h * 0.05])
+      }
+      if (d > auto_scale_input[1]) {
+        auto_scale_input[1] = d
+        scale_y_power = d3.scale.linear().domain(auto_scale_input).range([h * 0.95, h * 0.05])
+      }
+      auto_scale_input.forEach(function (d) {
+        d *= 0.999
+      })
+      pts[i].y = scale_y_power(d)
     })
     lines.forEach(function (line, i) {
       line.attr('y1', pts[i].y).attr('y2', pts[i + 1].y)

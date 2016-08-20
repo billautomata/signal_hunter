@@ -1,10 +1,18 @@
+var buffer_utils = require('./lib/BufferUtils.js')
+var constants = require('./lib/constants.js')
+var fs = require('fs')
 var Buffer = require('buffer').Buffer
 var express = require('express')
 var http = require('http')
 var socket_io = require('socket.io')
+
 var zmq = require('zmq')
 
-var fs = require('fs')
+var sock_fft = zmq.socket('pull')
+var sock_iqs = zmq.socket('pull')
+
+sock_fft.connect('tcp://127.0.0.1:9000');
+sock_iqs.connect('tcp://127.0.0.1:9001')
 
 var io
 var sockets = []
@@ -20,31 +28,30 @@ var server = http.createServer(app).listen(8000, function(){
     socket.on('disconnect', function(){
       sockets = sockets.filter(function(s){ return s !== socket })
     })
+
+    hunter.rpc_update(function(v){
+      socket.emit('radio_data', v)
+    })
+
+    socket.on('get_frequency', function(msg){
+
+    })
   })
 })
 
 app.use(express.static(__dirname + '/public'))
 
-var buffer_utils = require('./lib/BufferUtils.js')
-var constants = require('./lib/constants.js')
 var FFT_BUFFER_LENGTH = constants.FFT_SIZE * constants.FLOAT32_SIZE
 
 var hunter = require('./lib/SignalHunter.js')({
-  // frequency: 152000000
   frequency: 930000000
 })
-
-var sock_fft = zmq.socket('pull')
-var sock_iqs = zmq.socket('pull')
-
-sock_fft.connect('tcp://127.0.0.1:9000');
-sock_iqs.connect('tcp://127.0.0.1:9001')
 
 var count = 0
 
 sock_fft.on('message', function(msg){
   count += 1
-  if(count % 50 === 0){
+  if(count % 100 === 0){
     // split the buffers
     var buffers = []
     var buffer_index = 0
@@ -63,9 +70,8 @@ sock_fft.on('message', function(msg){
       var peaks = buffer_utils.find_peaks(msg)
       hunter.tick(peaks)
     })
-
   }
-});
+})
 
 sock_iqs.on('message', function(message){
   hunter.iq_packet(message)

@@ -238,7 +238,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>samp_rate/2</value>
+      <value>samp_rate/4</value>
     </param>
     <param>
       <key>_enabled</key>
