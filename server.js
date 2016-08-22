@@ -1,6 +1,7 @@
 var buffer_utils = require('./lib/BufferUtils.js')
 var constants = require('./lib/constants.js')
 var FFT_BUFFER_LENGTH = constants.FFT_SIZE * constants.FLOAT32_SIZE
+var rpc = require('./lib/RPCUtils.js')()
 
 var fs = require('fs')
 var Buffer = require('buffer').Buffer
@@ -11,10 +12,14 @@ var socket_io = require('socket.io')
 var zmq = require('zmq')
 
 var radio_data = {
-  frequency: 932000000,
-  peaks: [],
-  samp_rate: 2000000
+  frequency: 930000000,
+  samp_rate: 2000000,
+  bandwidth: 2000000
 }
+
+Object.keys(radio_data).forEach(function(n){
+  rpc.set(n, radio_data[n])
+})
 
 var hunter = require('./lib/SignalHunter.js')({
   frequency: radio_data.frequency
@@ -68,7 +73,7 @@ sock_fft.on('message', function(msg){
     }
     // draw each buffer
     buffers.forEach(function(msg){
-      var peaks = buffer_utils.find_peaks(msg)
+      var peaks = buffer_utils.find_peaks(msg, 0.5)
       // console.log(JSON.stringify(peaks))
       hunter.tick(peaks)
 

@@ -42,3 +42,16 @@ The node application also collects the IQ stream from ZMQ and buffers multiple s
   * [x] visualize FFT
   * [ ] identify peaks
   * [ ] recording state
+
+# program flow
+
+## startup
+1. start gnuradio script
+2. start node script
+3. node sets initial variables to gnuradio over xmlrpc
+  * frequency
+  * sample rate
+  * bandwidth
+
+## tick
+1.

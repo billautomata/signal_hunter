@@ -5,7 +5,7 @@
 # Title: Signal Hunter
 # Author: @billautomata
 # Description: yes
-# Generated: Sat Aug 20 13:06:08 2016
+# Generated: Mon Aug 22 11:17:53 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -21,7 +21,6 @@ if __name__ == '__main__':
 from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import fft
-from gnuradio import filter
 from gnuradio import gr
 from gnuradio import wxgui
 from gnuradio import zeromq
@@ -49,42 +48,22 @@ class signal_hunter(grc_wxgui.top_block_gui):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 2000000
         self.xlate_decimation = xlate_decimation = 40
-        self.offset2 = offset2 = 0
-        self.offset = offset = samp_rate/4
+        self.samp_rate = samp_rate = 2000000
+        self.hunter_freq_5 = hunter_freq_5 = 0
+        self.hunter_freq_4 = hunter_freq_4 = 0
+        self.hunter_freq_3 = hunter_freq_3 = 0
+        self.hunter_freq_2 = hunter_freq_2 = 0
+        self.hunter_freq_1 = hunter_freq_1 = 0
         self.hunter_freq_0 = hunter_freq_0 = 0
         self.gain = gain = 10
-        self.frequency = frequency = 930000000
+        self.frequency = frequency = 929000000
         self.filter_width = filter_width = 5120
-        self.fft_taps = fft_taps = filter.firdes.low_pass_2(1, samp_rate, 2000, 1000, 0.1)
+        self.fft_n_elements = fft_n_elements = 2048
 
         ##################################################
         # Blocks
         ##################################################
-        _hunter_freq_0_sizer = wx.BoxSizer(wx.VERTICAL)
-        self._hunter_freq_0_text_box = forms.text_box(
-        	parent=self.GetWin(),
-        	sizer=_hunter_freq_0_sizer,
-        	value=self.hunter_freq_0,
-        	callback=self.set_hunter_freq_0,
-        	label='hunter_freq_0',
-        	converter=forms.int_converter(),
-        	proportion=0,
-        )
-        self._hunter_freq_0_slider = forms.slider(
-        	parent=self.GetWin(),
-        	sizer=_hunter_freq_0_sizer,
-        	value=self.hunter_freq_0,
-        	callback=self.set_hunter_freq_0,
-        	minimum=-1000000,
-        	maximum=1000000,
-        	num_steps=1000,
-        	style=wx.SL_HORIZONTAL,
-        	cast=int,
-        	proportion=1,
-        )
-        self.Add(_hunter_freq_0_sizer)
         _frequency_sizer = wx.BoxSizer(wx.VERTICAL)
         self._frequency_text_box = forms.text_box(
         	parent=self.GetWin(),
@@ -109,28 +88,12 @@ class signal_hunter(grc_wxgui.top_block_gui):
         )
         self.Add(_frequency_sizer)
         self.zeromq_push_sink_1 = zeromq.push_sink(gr.sizeof_gr_complex, samp_rate, 'tcp://127.0.0.1:9001', 100, False, -1)
-        self.zeromq_push_sink_0_0 = zeromq.push_sink(gr.sizeof_float, 1024, 'tcp://127.0.0.1:9000', 100, False, -1)
+        self.zeromq_push_sink_0_0 = zeromq.push_sink(gr.sizeof_float, fft_n_elements, 'tcp://127.0.0.1:9000', 100, False, -1)
         self.xmlrpc_server_0 = SimpleXMLRPCServer.SimpleXMLRPCServer(('localhost', 8080), allow_none=True)
         self.xmlrpc_server_0.register_instance(self)
         self.xmlrpc_server_0_thread = threading.Thread(target=self.xmlrpc_server_0.serve_forever)
         self.xmlrpc_server_0_thread.daemon = True
         self.xmlrpc_server_0_thread.start()
-        self.wxgui_fftsink2_0_0 = fftsink2.fft_sink_c(
-        	self.GetWin(),
-        	baseband_freq=0,
-        	y_per_div=10,
-        	y_divs=10,
-        	ref_level=0,
-        	ref_scale=2.0,
-        	sample_rate=samp_rate/xlate_decimation,
-        	fft_size=1024,
-        	fft_rate=15,
-        	average=False,
-        	avg_alpha=None,
-        	title='filtered_fft',
-        	peak_hold=False,
-        )
-        self.Add(self.wxgui_fftsink2_0_0.win)
         self.wxgui_fftsink2_0 = fftsink2.fft_sink_c(
         	self.GetWin(),
         	baseband_freq=frequency,
@@ -149,7 +112,7 @@ class signal_hunter(grc_wxgui.top_block_gui):
         self.Add(self.wxgui_fftsink2_0.win)
         self.rtlsdr_source_0 = osmosdr.source( args="numchan=" + str(1) + " " + '' )
         self.rtlsdr_source_0.set_sample_rate(samp_rate)
-        self.rtlsdr_source_0.set_center_freq(930000000, 0)
+        self.rtlsdr_source_0.set_center_freq(frequency, 0)
         self.rtlsdr_source_0.set_freq_corr(0, 0)
         self.rtlsdr_source_0.set_dc_offset_mode(0, 0)
         self.rtlsdr_source_0.set_iq_balance_mode(0, 0)
@@ -160,52 +123,144 @@ class signal_hunter(grc_wxgui.top_block_gui):
         self.rtlsdr_source_0.set_antenna('', 0)
         self.rtlsdr_source_0.set_bandwidth(0, 0)
           
-        _offset2_sizer = wx.BoxSizer(wx.VERTICAL)
-        self._offset2_text_box = forms.text_box(
+        _hunter_freq_5_sizer = wx.BoxSizer(wx.VERTICAL)
+        self._hunter_freq_5_text_box = forms.text_box(
         	parent=self.GetWin(),
-        	sizer=_offset2_sizer,
-        	value=self.offset2,
-        	callback=self.set_offset2,
-        	label='offset2',
+        	sizer=_hunter_freq_5_sizer,
+        	value=self.hunter_freq_5,
+        	callback=self.set_hunter_freq_5,
+        	label='hunter_freq_5',
         	converter=forms.int_converter(),
         	proportion=0,
         )
-        self._offset2_slider = forms.slider(
+        self._hunter_freq_5_slider = forms.slider(
         	parent=self.GetWin(),
-        	sizer=_offset2_sizer,
-        	value=self.offset2,
-        	callback=self.set_offset2,
-        	minimum=-samp_rate/2,
-        	maximum=samp_rate/2,
+        	sizer=_hunter_freq_5_sizer,
+        	value=self.hunter_freq_5,
+        	callback=self.set_hunter_freq_5,
+        	minimum=-1000000,
+        	maximum=1000000,
         	num_steps=1000,
         	style=wx.SL_HORIZONTAL,
         	cast=int,
         	proportion=1,
         )
-        self.Add(_offset2_sizer)
-        _offset_sizer = wx.BoxSizer(wx.VERTICAL)
-        self._offset_text_box = forms.text_box(
+        self.Add(_hunter_freq_5_sizer)
+        _hunter_freq_4_sizer = wx.BoxSizer(wx.VERTICAL)
+        self._hunter_freq_4_text_box = forms.text_box(
         	parent=self.GetWin(),
-        	sizer=_offset_sizer,
-        	value=self.offset,
-        	callback=self.set_offset,
-        	label='offset',
+        	sizer=_hunter_freq_4_sizer,
+        	value=self.hunter_freq_4,
+        	callback=self.set_hunter_freq_4,
+        	label='hunter_freq_4',
         	converter=forms.int_converter(),
         	proportion=0,
         )
-        self._offset_slider = forms.slider(
+        self._hunter_freq_4_slider = forms.slider(
         	parent=self.GetWin(),
-        	sizer=_offset_sizer,
-        	value=self.offset,
-        	callback=self.set_offset,
-        	minimum=-samp_rate/2,
-        	maximum=samp_rate/2,
+        	sizer=_hunter_freq_4_sizer,
+        	value=self.hunter_freq_4,
+        	callback=self.set_hunter_freq_4,
+        	minimum=-1000000,
+        	maximum=1000000,
         	num_steps=1000,
         	style=wx.SL_HORIZONTAL,
         	cast=int,
         	proportion=1,
         )
-        self.Add(_offset_sizer)
+        self.Add(_hunter_freq_4_sizer)
+        _hunter_freq_3_sizer = wx.BoxSizer(wx.VERTICAL)
+        self._hunter_freq_3_text_box = forms.text_box(
+        	parent=self.GetWin(),
+        	sizer=_hunter_freq_3_sizer,
+        	value=self.hunter_freq_3,
+        	callback=self.set_hunter_freq_3,
+        	label='hunter_freq_3',
+        	converter=forms.int_converter(),
+        	proportion=0,
+        )
+        self._hunter_freq_3_slider = forms.slider(
+        	parent=self.GetWin(),
+        	sizer=_hunter_freq_3_sizer,
+        	value=self.hunter_freq_3,
+        	callback=self.set_hunter_freq_3,
+        	minimum=-1000000,
+        	maximum=1000000,
+        	num_steps=1000,
+        	style=wx.SL_HORIZONTAL,
+        	cast=int,
+        	proportion=1,
+        )
+        self.Add(_hunter_freq_3_sizer)
+        _hunter_freq_2_sizer = wx.BoxSizer(wx.VERTICAL)
+        self._hunter_freq_2_text_box = forms.text_box(
+        	parent=self.GetWin(),
+        	sizer=_hunter_freq_2_sizer,
+        	value=self.hunter_freq_2,
+        	callback=self.set_hunter_freq_2,
+        	label='hunter_freq_2',
+        	converter=forms.int_converter(),
+        	proportion=0,
+        )
+        self._hunter_freq_2_slider = forms.slider(
+        	parent=self.GetWin(),
+        	sizer=_hunter_freq_2_sizer,
+        	value=self.hunter_freq_2,
+        	callback=self.set_hunter_freq_2,
+        	minimum=-1000000,
+        	maximum=1000000,
+        	num_steps=1000,
+        	style=wx.SL_HORIZONTAL,
+        	cast=int,
+        	proportion=1,
+        )
+        self.Add(_hunter_freq_2_sizer)
+        _hunter_freq_1_sizer = wx.BoxSizer(wx.VERTICAL)
+        self._hunter_freq_1_text_box = forms.text_box(
+        	parent=self.GetWin(),
+        	sizer=_hunter_freq_1_sizer,
+        	value=self.hunter_freq_1,
+        	callback=self.set_hunter_freq_1,
+        	label='hunter_freq_1',
+        	converter=forms.int_converter(),
+        	proportion=0,
+        )
+        self._hunter_freq_1_slider = forms.slider(
+        	parent=self.GetWin(),
+        	sizer=_hunter_freq_1_sizer,
+        	value=self.hunter_freq_1,
+        	callback=self.set_hunter_freq_1,
+        	minimum=-1000000,
+        	maximum=1000000,
+        	num_steps=1000,
+        	style=wx.SL_HORIZONTAL,
+        	cast=int,
+        	proportion=1,
+        )
+        self.Add(_hunter_freq_1_sizer)
+        _hunter_freq_0_sizer = wx.BoxSizer(wx.VERTICAL)
+        self._hunter_freq_0_text_box = forms.text_box(
+        	parent=self.GetWin(),
+        	sizer=_hunter_freq_0_sizer,
+        	value=self.hunter_freq_0,
+        	callback=self.set_hunter_freq_0,
+        	label='hunter_freq_0',
+        	converter=forms.int_converter(),
+        	proportion=0,
+        )
+        self._hunter_freq_0_slider = forms.slider(
+        	parent=self.GetWin(),
+        	sizer=_hunter_freq_0_sizer,
+        	value=self.hunter_freq_0,
+        	callback=self.set_hunter_freq_0,
+        	minimum=-1000000,
+        	maximum=1000000,
+        	num_steps=1000,
+        	style=wx.SL_HORIZONTAL,
+        	cast=int,
+        	proportion=1,
+        )
+        self.Add(_hunter_freq_0_sizer)
         _gain_sizer = wx.BoxSizer(wx.VERTICAL)
         self._gain_text_box = forms.text_box(
         	parent=self.GetWin(),
@@ -229,9 +284,6 @@ class signal_hunter(grc_wxgui.top_block_gui):
         	proportion=1,
         )
         self.Add(_gain_sizer)
-        self.freq_xlating_fft_filter_ccc_0 = filter.freq_xlating_fft_filter_ccc(xlate_decimation, (fft_taps), frequency + hunter_freq_0, samp_rate)
-        self.freq_xlating_fft_filter_ccc_0.set_nthreads(1)
-        self.freq_xlating_fft_filter_ccc_0.declare_sample_delay(0)
         _filter_width_sizer = wx.BoxSizer(wx.VERTICAL)
         self._filter_width_text_box = forms.text_box(
         	parent=self.GetWin(),
@@ -255,12 +307,12 @@ class signal_hunter(grc_wxgui.top_block_gui):
         	proportion=1,
         )
         self.Add(_filter_width_sizer)
-        self.fft_vxx_0 = fft.fft_vcc(1024, True, (window.blackmanharris(1024)), True, 1)
-        self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, 1024)
+        self.fft_vxx_0 = fft.fft_vcc(fft_n_elements, True, (window.blackmanharris(fft_n_elements)), True, 1)
+        self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, fft_n_elements)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_stream_to_vector_2 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, samp_rate)
-        self.blocks_stream_to_vector_1 = blocks.stream_to_vector(gr.sizeof_float*1, 1024)
-        self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, 1024)
+        self.blocks_stream_to_vector_1 = blocks.stream_to_vector(gr.sizeof_float*1, fft_n_elements)
+        self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, fft_n_elements)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
 
         ##################################################
@@ -272,47 +324,65 @@ class signal_hunter(grc_wxgui.top_block_gui):
         self.connect((self.blocks_stream_to_vector_2, 0), (self.zeromq_push_sink_1, 0))    
         self.connect((self.blocks_throttle_0, 0), (self.blocks_stream_to_vector_0, 0))    
         self.connect((self.blocks_throttle_0, 0), (self.blocks_stream_to_vector_2, 0))    
-        self.connect((self.blocks_throttle_0, 0), (self.freq_xlating_fft_filter_ccc_0, 0))    
         self.connect((self.blocks_throttle_0, 0), (self.wxgui_fftsink2_0, 0))    
         self.connect((self.blocks_vector_to_stream_0, 0), (self.blocks_complex_to_real_0, 0))    
         self.connect((self.fft_vxx_0, 0), (self.blocks_vector_to_stream_0, 0))    
-        self.connect((self.freq_xlating_fft_filter_ccc_0, 0), (self.wxgui_fftsink2_0_0, 0))    
         self.connect((self.rtlsdr_source_0, 0), (self.blocks_throttle_0, 0))    
-
-    def get_samp_rate(self):
-        return self.samp_rate
-
-    def set_samp_rate(self, samp_rate):
-        self.samp_rate = samp_rate
-        self.set_fft_taps(filter.firdes.low_pass_2(1, self.samp_rate, 2000, 1000, 0.1))
-        self.wxgui_fftsink2_0_0.set_sample_rate(self.samp_rate/self.xlate_decimation)
-        self.wxgui_fftsink2_0.set_sample_rate(self.samp_rate)
-        self.rtlsdr_source_0.set_sample_rate(self.samp_rate)
-        self.set_offset(self.samp_rate/4)
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
     def get_xlate_decimation(self):
         return self.xlate_decimation
 
     def set_xlate_decimation(self, xlate_decimation):
         self.xlate_decimation = xlate_decimation
-        self.wxgui_fftsink2_0_0.set_sample_rate(self.samp_rate/self.xlate_decimation)
 
-    def get_offset2(self):
-        return self.offset2
+    def get_samp_rate(self):
+        return self.samp_rate
 
-    def set_offset2(self, offset2):
-        self.offset2 = offset2
-        self._offset2_slider.set_value(self.offset2)
-        self._offset2_text_box.set_value(self.offset2)
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
+        self.wxgui_fftsink2_0.set_sample_rate(self.samp_rate)
+        self.rtlsdr_source_0.set_sample_rate(self.samp_rate)
+        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
-    def get_offset(self):
-        return self.offset
+    def get_hunter_freq_5(self):
+        return self.hunter_freq_5
 
-    def set_offset(self, offset):
-        self.offset = offset
-        self._offset_slider.set_value(self.offset)
-        self._offset_text_box.set_value(self.offset)
+    def set_hunter_freq_5(self, hunter_freq_5):
+        self.hunter_freq_5 = hunter_freq_5
+        self._hunter_freq_5_slider.set_value(self.hunter_freq_5)
+        self._hunter_freq_5_text_box.set_value(self.hunter_freq_5)
+
+    def get_hunter_freq_4(self):
+        return self.hunter_freq_4
+
+    def set_hunter_freq_4(self, hunter_freq_4):
+        self.hunter_freq_4 = hunter_freq_4
+        self._hunter_freq_4_slider.set_value(self.hunter_freq_4)
+        self._hunter_freq_4_text_box.set_value(self.hunter_freq_4)
+
+    def get_hunter_freq_3(self):
+        return self.hunter_freq_3
+
+    def set_hunter_freq_3(self, hunter_freq_3):
+        self.hunter_freq_3 = hunter_freq_3
+        self._hunter_freq_3_slider.set_value(self.hunter_freq_3)
+        self._hunter_freq_3_text_box.set_value(self.hunter_freq_3)
+
+    def get_hunter_freq_2(self):
+        return self.hunter_freq_2
+
+    def set_hunter_freq_2(self, hunter_freq_2):
+        self.hunter_freq_2 = hunter_freq_2
+        self._hunter_freq_2_slider.set_value(self.hunter_freq_2)
+        self._hunter_freq_2_text_box.set_value(self.hunter_freq_2)
+
+    def get_hunter_freq_1(self):
+        return self.hunter_freq_1
+
+    def set_hunter_freq_1(self, hunter_freq_1):
+        self.hunter_freq_1 = hunter_freq_1
+        self._hunter_freq_1_slider.set_value(self.hunter_freq_1)
+        self._hunter_freq_1_text_box.set_value(self.hunter_freq_1)
 
     def get_hunter_freq_0(self):
         return self.hunter_freq_0
@@ -321,7 +391,6 @@ class signal_hunter(grc_wxgui.top_block_gui):
         self.hunter_freq_0 = hunter_freq_0
         self._hunter_freq_0_slider.set_value(self.hunter_freq_0)
         self._hunter_freq_0_text_box.set_value(self.hunter_freq_0)
-        self.freq_xlating_fft_filter_ccc_0.set_center_freq(self.frequency + self.hunter_freq_0)
 
     def get_gain(self):
         return self.gain
@@ -339,7 +408,7 @@ class signal_hunter(grc_wxgui.top_block_gui):
         self._frequency_slider.set_value(self.frequency)
         self._frequency_text_box.set_value(self.frequency)
         self.wxgui_fftsink2_0.set_baseband_freq(self.frequency)
-        self.freq_xlating_fft_filter_ccc_0.set_center_freq(self.frequency + self.hunter_freq_0)
+        self.rtlsdr_source_0.set_center_freq(self.frequency, 0)
 
     def get_filter_width(self):
         return self.filter_width
@@ -349,12 +418,11 @@ class signal_hunter(grc_wxgui.top_block_gui):
         self._filter_width_slider.set_value(self.filter_width)
         self._filter_width_text_box.set_value(self.filter_width)
 
-    def get_fft_taps(self):
-        return self.fft_taps
+    def get_fft_n_elements(self):
+        return self.fft_n_elements
 
-    def set_fft_taps(self, fft_taps):
-        self.fft_taps = fft_taps
-        self.freq_xlating_fft_filter_ccc_0.set_taps((self.fft_taps))
+    def set_fft_n_elements(self, fft_n_elements):
+        self.fft_n_elements = fft_n_elements
 
 
 def main(top_block_cls=signal_hunter, options=None):
