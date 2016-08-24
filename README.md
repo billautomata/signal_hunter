@@ -55,3 +55,11 @@ The node application also collects the IQ stream from ZMQ and buffers multiple s
 
 ## tick
 1.
+
+
+
+# launch the app
+
+```bash
+python modified_signal_hunter_multi.py 2>&1 | grep -v 127
+```

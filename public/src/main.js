@@ -18,18 +18,18 @@ function render () {
 render()
 
 window.socket.on('fft_data', function (d) {
-  console.log(d.length)
+  // console.log(d.length)
   window.latest_buffer = d
 })
 
 window.socket.on('radio_data', function (d) {
-  console.log('got radio data')
-  console.log(d)
+  // console.log('got radio data')
+  // console.log(d)
 })
 
 window.socket.on('peak_data', function (d) {
-  console.log('got peak data')
-  console.log(d)
+  // console.log('got peak data')
+  // console.log(d)
   window.current_peak_data = d
 })
 

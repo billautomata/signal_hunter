@@ -26,10 +26,10 @@ var hunter = require('./lib/SignalHunter.js')({
 })
 
 var sock_fft = zmq.socket('pull')
-var sock_iqs = zmq.socket('pull')
+// var sock_iqs = zmq.socket('pull')
 
 sock_fft.connect('tcp://127.0.0.1:9000');
-sock_iqs.connect('tcp://127.0.0.1:9001')
+// sock_iqs.connect('tcp://127.0.0.1:9001')
 
 var io
 var sockets = []
@@ -73,7 +73,7 @@ sock_fft.on('message', function(msg){
     }
     // draw each buffer
     buffers.forEach(function(msg){
-      var peaks = buffer_utils.find_peaks(msg, 0.5)
+      var peaks = buffer_utils.find_peaks(msg, 4)
       // console.log(JSON.stringify(peaks))
       hunter.tick(peaks)
 
@@ -85,6 +85,6 @@ sock_fft.on('message', function(msg){
   }
 })
 
-sock_iqs.on('message', function(message){
-  hunter.iq_packet(message)
-})
+// sock_iqs.on('message', function(message){
+//   hunter.iq_packet(message)
+// })

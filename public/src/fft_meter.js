@@ -4,25 +4,25 @@ module.exports = function fft_meter () {
   console.log('creating fft meter')
   var body = d3.select('div#meter')
 
-  var w = 1024
-  var h = 256
+  var w = 2048
+  var h = 512
 
   var svg = body.append('svg')
     .attr('width', '100%')
-    .attr('viewBox', '0 0 1024 256')
+    .attr('viewBox', '0 0 ' + w + ' ' + h)
     .attr('preserveAspectRatio', 'xMidYMid')
     .style('outline', '1px solid rgb(100,100,100)')
 
   var auto_scale_input = [-3, 3]
 
   var scale_y_power = d3.scale.linear().domain(auto_scale_input).range([h * 0.95, h * 0.05])
-  var scale_x_frequency = d3.scale.linear().domain([0, 1024]).range([0, w])
+  var scale_x_frequency = d3.scale.linear().domain([0, 2048]).range([0, w])
 
   var pts = []
   var lines = []
 
   function create_pts () {
-    var n_pts = 1024
+    var n_pts = 2048
 
     for (var i = 0; i < n_pts; i++) {
       pts.push({
