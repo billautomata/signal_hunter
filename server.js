@@ -12,9 +12,8 @@ var socket_io = require('socket.io')
 var zmq = require('zmq')
 
 var radio_data = {
-  frequency: 930000000,
-  samp_rate: 2000000,
-  bandwidth: 2000000
+  frequency: 931000000,
+  samp_rate: 2000000
 }
 
 Object.keys(radio_data).forEach(function(n){
@@ -73,7 +72,7 @@ sock_fft.on('message', function(msg){
     }
     // draw each buffer
     buffers.forEach(function(msg){
-      var peaks = buffer_utils.find_peaks(msg, 4)
+      var peaks = buffer_utils.find_peaks(msg, 1)
       // console.log(JSON.stringify(peaks))
       hunter.tick(peaks)
 

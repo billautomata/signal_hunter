@@ -50,8 +50,8 @@ class pager_6ch_decode(grc_wxgui.top_block_gui):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 4000000
-        self.xlate_decimation = xlate_decimation = 160
+        self.samp_rate = samp_rate = 2000000
+        self.xlate_decimation = xlate_decimation = 80
         self.hunter_freq_5 = hunter_freq_5 = 0
         self.hunter_freq_4 = hunter_freq_4 = 0
         self.hunter_freq_3 = hunter_freq_3 = 0
@@ -61,7 +61,7 @@ class pager_6ch_decode(grc_wxgui.top_block_gui):
         self.gain = gain = 10
         self.frequency = frequency = 929000000
         self.filter_width = filter_width = 5120
-        self.fft_taps = fft_taps = filter.firdes.low_pass_2(1, samp_rate, 2000, 1000, 0.1)
+        self.fft_taps = fft_taps = filter.firdes.low_pass_2(1, samp_rate, 10000, 1000, 0.1)
         self.fft_n_elements = fft_n_elements = 2048
 
         ##################################################
